@@ -37,7 +37,7 @@ content <- chapters_repo %>%
                   .limit = Inf), rate = rate))
 
 # We get a list with another list for each contents in the repo 
-# Iterate in thi list to get the name, url and type of content
+# Iterate in the list to get the name, url and type of content
 files <- tibble(
   name = content %>% flatten() %>% map_chr("name"),
   url= content %>% flatten() %>% map_chr("html_url"),
@@ -76,7 +76,7 @@ lessons <- files %>%
                             str_length(date) == 12 ~ str_sub(date,1,4),
                             # numbers that aren't years
                           ), 
-                          # This arethe date that lubridate convert right in date_2
+                          # This are the date that lubridate convert right in date_2
                           as.character(year(date_2))                          
                           ),
          date_3 = if_else(date_3 < 2010, "", date_3),
