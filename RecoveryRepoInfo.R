@@ -131,6 +131,15 @@ lessons <- lessons %>%
     topic = ifelse(str_detect(name, "SQL|sql|Sql"), "SQL", topic),
   )
 
+# Add language
+
+lessons <- lessons %>%
+  mutate(language = case_when(
+    city %in% c("Montevideo", "Cordoba", "Barcelona", "Buenosaires", "Madrid", "Mendoza", "Santarosa") ~ "Spanish",
+    city %in% c("Belohorizonte") ~ "Portuguese" ,
+    city %in% c("Bari") ~ "Italian" ,
+    TRUE ~ "English"
+  ))
 
 
 
