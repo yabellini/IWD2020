@@ -128,6 +128,7 @@ lessons <- lessons %>%
     topic = ifelse(str_detect(name, "pur"), "purrr", topic),
     topic = ifelse(str_detect(name, "model"), "Modelling", topic),
     topic = ifelse(str_detect(name, "RStudio|rstudio"), "RStudio", topic),
+    topic = ifelse(str_detect(name, "SQL|sql|Sql"), "SQL", topic),
   )
 
 
