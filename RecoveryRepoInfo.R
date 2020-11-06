@@ -7,6 +7,7 @@ library(purrr)
 library(stringr)
 library(readr)
 library(lubridate)
+library(rio)
 
 #Retrieve all of RLadies's public GitHub repositories.
 repos <- gh("/users/rladies/repos", .limit = Inf)
@@ -49,10 +50,10 @@ files <- tibble(
 readr::write_excel_csv2(files, path = here::here("files_in_rladies_chapters_repos.csv"))
 
 
-# Clean the files retrivied from the chapter's repo
+# Clean the files retrieved from the chapter's repo
 
 lessons <- files %>%
-  # Trying to get a date, at leat the year
+  # Trying to get a date, at least the year
   mutate(date = gsub("[^0-9]", "", name),
          date_2 = as_date(date),
          date_3 = if_else(is.na(date_2),
@@ -104,6 +105,31 @@ lessons <- lessons %>%
          name = trimws(name)) %>%
   filter(name != 'master')
 
-  
+# Add topic to the lesson
+# During the campaing we build a clodword and with thatchoose the topics
+
+lessons <- lessons %>%
+  mutate(
+    topic = ifelse(str_detect(name, "intro|Básico|beggin|Novice|scratch|Scratch|Intro"), "Intro", NA),
+    topic = ifelse(str_detect(name, "datavi|visualizacion"), "Data Vizualization", topic),
+    topic = ifelse(str_detect(name, "ggplot|Ggplot"), "ggplot", topic),
+    topic = ifelse(str_detect(name, "shiny|Shiny"), "shiny", topic),
+    topic = ifelse(str_detect(name, "tidy|Tidy"), "tidyverse", topic),
+    topic = ifelse(str_detect(name, "rmarkdown|Rmarkdown|Markdown|markdown"), "rmarkdown", topic),
+    topic = ifelse(str_detect(name, "git|Git"), "git", topic),
+    topic = ifelse(str_detect(name, "dplyr"), "dplyr", topic),
+    topic = ifelse(str_detect(name, "blog"), "blogdown", topic),
+    topic = ifelse(str_detect(name, "scrap"), "Web scrapping", topic),
+    topic = ifelse(str_detect(name, "map|spatial|espacial"), "spatial", topic),
+    topic = ifelse(str_detect(name, "docker"), "docker", topic),
+    topic = ifelse(str_detect(name, "mining"), "data mining", topic),
+    topic = ifelse(str_detect(name, "Machine learning"), "Machine learning", topic),
+    topic = ifelse(str_detect(name, "pack"), "Package", topic),
+    topic = ifelse(str_detect(name, "pur"), "purrr", topic),
+    topic = ifelse(str_detect(name, "model"), "Modelling", topic),
+    topic = ifelse(str_detect(name, "RStudio|rstudio"), "RStudio", topic),
+  )
+
+
 
 
